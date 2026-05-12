@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños — 20 años</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --rose:    #e8547a;
+            --rose-lt: #f4a0b8;
+            --rose-dk: #b02050;
+            --gold:    #d4a855;
+            --gold-lt: #edd590;
+            --lavender:#c8a8e8;
+            --bg:      #090810;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            font-family: 'DM Sans', sans-serif;
+            overflow: hidden;
+        }
+
+
+        /* ════════════ FONDO ════════════ */
+        .bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+        .bg-atm {
+            background:
+                radial-gradient(ellipse 70% 60% at 15% 90%, rgba(180,140,255,0.10) 0%, transparent 65%),
+                radial-gradient(ellipse 55% 50% at 85% 10%, rgba(255,180,100,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 50% 50%, rgba(212,168,85,0.06) 0%, transparent 55%);
+        }
+
+        .bg-aurora {
+            background:
+                linear-gradient(135deg, transparent 0%, rgba(232,84,122,0.04) 30%, transparent 60%),
+                linear-gradient(225deg, transparent 0%, rgba(180,120,240,0.04) 40%, transparent 70%);
+            animation: aurora-shift 12s ease-in-out infinite;
+        }
+        @keyframes aurora-shift {
+            0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}
+        }
+
+        .star {
+            position: absolute; border-radius: 50%; background: #fff;
+            animation: twinkle var(--dur) ease-in-out infinite var(--del);
+        }
+        @keyframes twinkle {
+            0%,100%{opacity:.08;transform:scale(1)}
+            50%{opacity:var(--op,.7);transform:scale(var(--sc,1.5))}
+        }
+
+        /* Pétalos */
+        .petal {
+            position: fixed; pointer-events: none; z-index: 1; opacity: 0;
+            animation: petal-fall var(--pd) ease-in forwards var(--pde);
+        }
+        @keyframes petal-fall {
+            0%  {opacity:0;transform:translateY(-20px) rotate(var(--pr)) translateX(0)}
+            10% {opacity:.7}
+            90% {opacity:.4}
+            100%{opacity:0;transform:translateY(110vh) rotate(calc(var(--pr) + 360deg)) translateX(var(--px))}
+        }
+
+        /* ════════════ CONTENEDOR ════════════ */
+        .container {
+            position: relative; z-index: 10;
+            text-align: center; padding: 48px 20px 24px;
+            width: 100%; max-width: 680px;
+            animation: entrance 1.4s cubic-bezier(0.22,1,0.36,1);
+        }
+        @keyframes entrance {
+            from{opacity:0;transform:translateY(36px)}
+            to{opacity:1;transform:translateY(0)}
+        }
+        @keyframes fade-up {
+            from{opacity:0;transform:translateY(16px)}
+            to{opacity:1;transform:translateY(0)}
+        }
+
+        /* Etiqueta año */
+        .year-tag {
+            display: inline-flex; align-items: center; gap: 10px;
+            margin-bottom: 14px; opacity: 0;
+            animation: fade-up .8s ease .3s forwards;
+        }
+        .year-tag .line { width: 40px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold)); }
+        .year-tag .line.r { background: linear-gradient(90deg,var(--gold),transparent); }
+        .year-tag span {
+            font-size: .7rem; font-weight: 300; letter-spacing: 6px;
+            text-transform: uppercase; color: var(--gold-lt);
+        }
+
+        /* Título */
+        .titulo-wrap { margin-bottom: 6px; opacity: 0; transition: opacity .8s ease, transform .8s ease; transform: translateY(16px); }
+        .titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem,7vw,4.8rem);
+            font-weight: 700; line-height: 1.05;
+            background: linear-gradient(135deg,#fff 0%,#f4c0d0 35%,#fff 55%,#d4a855 80%,#fff 100%);
+            background-size: 300%; background-position: 0%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: text-shimmer 6s ease-in-out infinite 1.5s;
+        }
+        @keyframes text-shimmer {
+            0%,100%{background-position:0%}50%{background-position:100%}
+        }
+        .subtitulo {
+            font-family: 'Cormorant Garamond', serif; font-style: italic;
+            font-size: clamp(1rem,2.5vw,1.3rem); font-weight: 300;
+            color: rgba(255,255,255,.38); letter-spacing: 3px; margin-top: 4px;
+        }
+
+        /* ════════════ PASTEL ════════════ */
+        .cake-scene {
+            position: relative; width: 290px; margin: 80px auto 70px;
+            opacity: 0; animation: fade-up 1s ease .8s forwards;
+        }
+        .cake-scene::before {
+            content: ''; position: absolute; bottom: -20px; left: 50%;
+            transform: translateX(-50%); width: 320px; height: 60px;
+            background: radial-gradient(ellipse,rgba(232,84,122,.18) 0%,transparent 70%);
+            filter: blur(10px); pointer-events: none;
+        }
+
+        /* Plato */
+        .plate { position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); width: 310px; }
+        .plate-top {
+            width: 310px; height: 10px;
+            background: linear-gradient(180deg,#c8b8e8 0%,#8060b8 100%);
+            border-radius: 50%; box-shadow: 0 4px 16px rgba(100,60,180,.4); position: relative;
+        }
+        .plate-top::before {
+            content: ''; position: absolute; top: 2px; left: 50%; transform: translateX(-50%);
+            width: 280px; height: 5px; background: rgba(255,255,255,.18); border-radius: 50%;
+        }
+        .plate-rim {
+            width: 290px; height: 12px;
+            background: linear-gradient(180deg,#6840a0 0%,#3c1c70 100%);
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            margin: 0 auto; box-shadow: 0 6px 20px rgba(60,28,112,.5);
+        }
+
+        .cake { position: relative; width: 100%; }
+        .layer { position: relative; margin: 0 auto; }
+        .layer-body { position: relative; width: 100%; overflow: hidden; border-radius: 5px 5px 0 0; }
+        .layer-side { border-radius: 0 0 6px 6px; }
+
+        .l1{width:268px} .l1 .layer-body{height:74px;background:linear-gradient(160deg,#e05580 0%,#b82050 55%,#8c1038 100%);box-shadow:inset -22px 0 28px rgba(0,0,0,.28),inset 0 -8px 14px rgba(0,0,0,.22)} .l1 .layer-side{height:12px;background:linear-gradient(180deg,#7a0c30 0%,#480018 100%);box-shadow:0 8px 22px rgba(0,0,0,.55)}
+        .l2{width:212px} .l2 .layer-body{height:62px;background:linear-gradient(160deg,#ed7a9c 0%,#d04070 55%,#a82058 100%);box-shadow:inset -16px 0 22px rgba(0,0,0,.22),inset 0 -6px 12px rgba(0,0,0,.18)} .l2 .layer-side{height:10px;background:linear-gradient(180deg,#8c1040 0%,#580028 100%);box-shadow:0 6px 18px rgba(0,0,0,.48)}
+        .l3{width:158px} .l3 .layer-body{height:52px;background:linear-gradient(160deg,#ffaac8 0%,#e870a8 55%,#c04888 100%);box-shadow:inset -12px 0 18px rgba(0,0,0,.18),inset 0 -5px 10px rgba(0,0,0,.14)} .l3 .layer-side{height:8px;background:linear-gradient(180deg,#a02070 0%,#680048 100%);box-shadow:0 5px 14px rgba(0,0,0,.42)}
+
+        .frosting {
+            position: absolute; top: -1px; left: -3px; right: -3px; height: 14px;
+            background: linear-gradient(180deg,#fff 0%,#f8e8f0 100%);
+            border-radius: 4px; z-index: 5; box-shadow: 0 2px 6px rgba(255,255,255,.2);
+        }
+        .drip {
+            position: absolute; top: 12px; width: 9px;
+            border-radius: 0 0 50% 50%;
+            background: linear-gradient(180deg,#fff 0%,#f8dcea 100%);
+            z-index: 4; box-shadow: 0 2px 4px rgba(0,0,0,.08);
+        }
+        .dot {
+            position: absolute; border-radius: 50%;
+            animation: dot-pulse var(--dp,2s) ease-in-out infinite var(--dd,0s);
+        }
+        @keyframes dot-pulse {
+            0%,100%{opacity:.65;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}
+        }
+        .cake-number { display: none; }
+        .cream-sep { height: 5px; margin: 0 auto; background: rgba(255,255,255,.06); }
+
+        /* ════════════ CONTADOR ════════════ */
+        .countdown-wrap {
+            margin: -22px auto 30px;
+            opacity: 0; animation: fade-up .8s ease .9s forwards;
+        }
+        .countdown-ring {
+            position: relative; width: 72px; height: 72px; margin: 0 auto;
+        }
+        .countdown-ring svg { transform: rotate(-90deg); }
+        .ring-bg { fill: none; stroke: rgba(255,255,255,.07); stroke-width: 3; }
+        .ring-fill {
+            fill: none; stroke: var(--rose-lt); stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 188;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset .9s linear;
+        }
+        .countdown-num {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.55rem; font-weight: 700;
+            color: #fff;
+        }
+        .countdown-label {
+            font-size: .62rem; letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(255,255,255,.3); margin-top: 6px; font-weight: 300;
+        }
+
+        /* ════════════ VELAS ════════════ */
+        .candles-row {
+            position: absolute; top: -118px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 26px; align-items: flex-end; justify-content: center;
+        }
+        .candle-wrap { position: relative; display: flex; flex-direction: column; align-items: center; }
+
+        .flame-wrap { position: relative; width: 22px; height: 52px; margin-bottom: 1px; }
+
+        .flame-outer,.flame-mid,.flame-inner,.flame-glow { position: absolute; }
+        .flame-outer {
+            bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 14px; height: 38px;
+            border-radius: 50% 50% 25% 25% / 60% 60% 35% 35%;
+            filter: blur(2.5px);
+            animation: fdance var(--fd,.85s) ease-in-out infinite var(--fde,0s);
+            transform-origin: center bottom;
+        }
+        .flame-mid {
+            bottom: 2px; left: 50%; transform: translateX(-50%);
+            width: 9px; height: 26px;
+            border-radius: 50% 50% 25% 25% / 60% 60% 35% 35%;
+            filter: blur(1.5px);
+            animation: fdance var(--fd,.85s) ease-in-out infinite calc(var(--fde,0s) + .1s);
+            transform-origin: center bottom;
+        }
+        .flame-inner {
+            bottom: 5px; left: 50%; transform: translateX(-50%);
+            width: 5px; height: 14px;
+            background: linear-gradient(to top,#fffde0,rgba(255,255,240,0));
+            border-radius: 50%; filter: blur(1px);
+            animation: fdance var(--fd,.85s) ease-in-out infinite calc(var(--fde,0s) + .18s);
+            transform-origin: center bottom;
+        }
+        .flame-glow {
+            bottom: -6px; left: 50%; transform: translateX(-50%);
+            width: 30px; height: 30px; border-radius: 50%; filter: blur(6px);
+            animation: glow-p var(--fd,.85s) ease-in-out infinite var(--fde,0s);
+        }
+        @keyframes fdance {
+            0%  {transform:translateX(-50%) scaleX(1)    skewX(0deg)  scaleY(1)}
+            20% {transform:translateX(-53%) scaleX(.88)  skewX(-5deg) scaleY(1.04)}
+            45% {transform:translateX(-47%) scaleX(1.06) skewX(4deg)  scaleY(.97)}
+            70% {transform:translateX(-52%) scaleX(.92)  skewX(-3deg) scaleY(1.03)}
+            100%{transform:translateX(-50%) scaleX(1)    skewX(0deg)  scaleY(1)}
+        }
+        @keyframes glow-p {
+            0%,100%{opacity:.55;transform:translateX(-50%) scale(1)}
+            50%{opacity:1;transform:translateX(-50%) scale(1.35)}
+        }
+
+        /* Colores velas */
+        .cv1 .flame-outer{background:linear-gradient(to top,#ff3800,#ff8800,#ffd000,rgba(255,200,0,0))}
+        .cv1 .flame-mid  {background:linear-gradient(to top,#ff7000,#ffcc00,rgba(255,220,0,0))}
+        .cv1 .flame-glow {background:radial-gradient(circle,rgba(255,140,0,.55),transparent 70%)}
+        .cv2 .flame-outer{background:linear-gradient(to top,#ff2060,#ff80b0,#ffccdd,rgba(255,200,220,0))}
+        .cv2 .flame-mid  {background:linear-gradient(to top,#ff5090,#ffaac8,rgba(255,200,220,0))}
+        .cv2 .flame-glow {background:radial-gradient(circle,rgba(255,100,160,.5),transparent 70%)}
+        .cv3 .flame-outer{background:linear-gradient(to top,#8000ff,#c060ff,#e8b0ff,rgba(220,180,255,0))}
+        .cv3 .flame-mid  {background:linear-gradient(to top,#a040ff,#dda0ff,rgba(220,180,255,0))}
+        .cv3 .flame-glow {background:radial-gradient(circle,rgba(160,60,255,.5),transparent 70%)}
+
+        .candle-body { position: relative; width: 13px; border-radius: 3px; overflow: hidden; }
+        .candle-body::after {
+            content: ''; position: absolute; top: 0; left: 3px;
+            width: 3px; bottom: 0; background: rgba(255,255,255,.22); border-radius: 2px;
+        }
+        .cv1 .candle-body{height:58px;background:linear-gradient(90deg,#b0d8ff,#f0f8ff,#90c0f0)}
+        .cv2 .candle-body{height:52px;background:linear-gradient(90deg,#ffc8e0,#fff0f8,#ffaad0)}
+        .cv3 .candle-body{height:64px;background:linear-gradient(90deg,#d8b8ff,#f5eeff,#c090f0)}
+
+        .wick { width: 1.5px; height: 7px; background: linear-gradient(180deg,#888,#333); border-radius: 1px; }
+        .candle-base { width: 20px; height: 5px; border-radius: 3px; margin-top: 1px; }
+        .cv1 .candle-base{background:linear-gradient(90deg,#70a8d8,#a0c8f0)}
+        .cv2 .candle-base{background:linear-gradient(90deg,#e080b0,#f8b0d0)}
+        .cv3 .candle-base{background:linear-gradient(90deg,#9060d0,#c090f0)}
+
+        .candle-wrap.blown .flame-outer,
+        .candle-wrap.blown .flame-mid,
+        .candle-wrap.blown .flame-inner,
+        .candle-wrap.blown .flame-glow {
+            animation: extinguish 1s ease-out forwards !important;
+        }
+        @keyframes extinguish {
+            0%  {opacity:1;transform:translateX(-50%) scaleY(1) translateY(0)}
+            40% {opacity:.6;transform:translateX(-50%) scaleY(.4) translateY(-8px)}
+            100%{opacity:0;transform:translateX(-50%) scaleY(0) translateY(-18px)}
+        }
+        .smoke {
+            display: none; position: absolute; bottom: 62px; left: 50%;
+            transform: translateX(-50%); width: 4px; height: 1px;
+            border-radius: 2px; background: rgba(180,180,200,.6);
+            animation: smoke-up 2.5s ease-out forwards;
+        }
+        .candle-wrap.blown .smoke { display: block; }
+        @keyframes smoke-up {
+            0%  {opacity:.8;height:1px; transform:translateX(-50%) scaleX(1) translateY(0)}
+            100%{opacity:0; height:40px;transform:translateX(-50%) scaleX(4) translateY(-50px)}
+        }
+
+        /* ════════════ MENSAJE ════════════ */
+        .message-section {
+            margin: 0 auto 32px; max-width: 560px;
+            opacity: 0; transition: opacity .8s ease, transform .8s ease; transform: translateY(16px);
+        }
+        .divider { display: flex; align-items: center; gap: 14px; margin: 0 auto 24px; width: fit-content; }
+        .divider .dline { width: 55px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold)); }
+        .divider .dline.r { background: linear-gradient(90deg,var(--gold),transparent); }
+        .divider .diamond {
+            width: 7px; height: 7px; background: var(--gold);
+            transform: rotate(45deg); box-shadow: 0 0 8px rgba(212,168,85,.6);
+        }
+
+        .message-card {
+            background: linear-gradient(145deg,rgba(255,255,255,.04) 0%,rgba(255,255,255,.02) 100%);
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: 20px; padding: 30px 38px;
+            backdrop-filter: blur(12px); position: relative; overflow: hidden;
+        }
+        .message-card::before {
+            content: ''; position: absolute; top: -1px; left: -1px;
+            width: 40px; height: 40px;
+            border-top: 1.5px solid rgba(212,168,85,.5);
+            border-left: 1.5px solid rgba(212,168,85,.5);
+            border-radius: 20px 0 0 0;
+        }
+        .message-card::after {
+            content: ''; position: absolute; bottom: -1px; right: -1px;
+            width: 40px; height: 40px;
+            border-bottom: 1.5px solid rgba(212,168,85,.5);
+            border-right: 1.5px solid rgba(212,168,85,.5);
+            border-radius: 0 0 20px 0;
+        }
+        .bg-number {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            font-family: 'Playfair Display', serif; font-size: 8rem; font-weight: 700;
+            color: rgba(232,84,122,.05); pointer-events: none; user-select: none; line-height: 1;
+        }
+        .message-text { position: relative; z-index: 1; }
+        .verse {
+            font-family: 'DM Sans', sans-serif; font-style: normal;
+            font-size: clamp(.95rem,2.2vw,1.1rem); font-weight: 300;
+            color: rgba(255,255,255,.72); line-height: 1.9;
+            letter-spacing: .3px; margin-bottom: 18px;
+        }
+        .verse em { font-style: normal; color: var(--rose-lt); font-weight: 400; }
+        .closing {
+            font-size: .78rem; letter-spacing: 4px;
+            text-transform: uppercase; color: var(--gold-lt); font-weight: 300;
+        }
+
+        /* ════════════ BOTÓN ════════════ */
+        .btn-wrap { opacity: 0; animation: fade-up .8s ease 1.4s forwards; }
+        .button {
+            padding: 15px 48px; font-size: .82rem; font-family: 'DM Sans', sans-serif;
+            font-weight: 400; letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(255,255,255,.85); background: transparent;
+            border: 1px solid rgba(255,255,255,.15); border-radius: 60px;
+            cursor: pointer; transition: all .35s ease; position: relative; overflow: hidden;
+        }
+        .button::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg,rgba(232,84,122,.12),rgba(180,120,240,.08));
+            opacity: 0; transition: opacity .35s; border-radius: 60px;
+        }
+        .button:hover { border-color: rgba(232,84,122,.4); color: #fff; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,84,122,.18); }
+        .button:hover::before { opacity: 1; }
+        .button:active { transform: translateY(0); }
+        .button.done { opacity: .35; pointer-events: none; }
+
+        /* Efectos */
+        .confeti { position: fixed; pointer-events: none; z-index: 999; }
+        .sparkle {
+            position: fixed; pointer-events: none; z-index: 998; font-size: 1.1rem;
+            animation: sparkle-rise 2.5s ease-out forwards;
+        }
+        @keyframes sparkle-rise {
+            0%  {opacity:1;transform:translate(0,0) scale(1) rotate(0deg)}
+            100%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(.3) rotate(var(--sr))}
+        }
+        @keyframes confeti-caida {
+            0%  {transform:translateY(0) rotate(0deg);opacity:.92}
+            100%{transform:translateY(105vh) rotate(640deg) translateX(var(--cx));opacity:0}
+        }
+
+        /* ═══════════════════════════════
+           RESPONSIVE — móvil primero
+        ═══════════════════════════════ */
+
+        /* Pantallas pequeñas: ≤ 480px (la mayoría de celulares) */
+        @media(max-width:480px){
+            body { align-items: flex-start; overflow-y: auto; overflow-x: hidden; }
+
+            .container { padding: 36px 18px 40px; }
+
+            /* Título */
+            .titulo { font-size: clamp(2rem,10vw,3rem); }
+
+            /* Pastel — escala al 78% en móvil */
+            .cake-scene {
+                width: 220px;
+                margin: 52px auto 54px;
+                transform-origin: center top;
+            }
+            .cake-scene::before { width: 240px; }
+
+            /* Capas */
+            .l1 { width: 204px; }
+            .l1 .layer-body { height: 56px; }
+            .l1 .layer-side { height: 9px; }
+
+            .l2 { width: 162px; }
+            .l2 .layer-body { height: 48px; }
+            .l2 .layer-side { height: 8px; }
+
+            .l3 { width: 122px; }
+            .l3 .layer-body { height: 40px; }
+            .l3 .layer-side { height: 7px; }
+
+            /* Plato */
+            .plate { width: 236px; }
+            .plate-top { width: 236px; }
+            .plate-top::before { width: 214px; }
+            .plate-rim { width: 220px; }
+
+            /* Velas */
+            .candles-row { top: -96px; gap: 18px; }
+            .flame-wrap { height: 44px; }
+            .flame-outer { width: 11px; height: 30px; }
+            .flame-mid   { width: 7px;  height: 20px; }
+            .flame-glow  { width: 22px; height: 22px; }
+            .cv1 .candle-body { height: 44px; }
+            .cv2 .candle-body { height: 40px; }
+            .cv3 .candle-body { height: 50px; }
+            .candle-body { width: 11px; }
+            .candle-base { width: 16px; height: 4px; }
+            .smoke { bottom: 50px; }
+
+            /* Contador */
+            .countdown-wrap { margin: -14px auto 24px; }
+            .countdown-ring { width: 62px; height: 62px; }
+            .countdown-ring svg { width: 62px; height: 62px; }
+            .countdown-num { font-size: 1.3rem; }
+
+            /* Drips — ocultar algunos en mobile para no saturar */
+            .l1 .drip:nth-child(n+8) { display: none; }
+            .l2 .drip:nth-child(n+7) { display: none; }
+
+            /* Mensaje */
+            .message-section { margin: 0 auto 28px; max-width: 100%; }
+            .message-card { padding: 22px 20px; border-radius: 16px; }
+            .verse { font-size: .95rem; line-height: 1.85; }
+            .divider .dline { width: 36px; }
+
+            /* Botón */
+            .button { padding: 14px 36px; font-size: .78rem; }
+        }
+
+        /* Pantallas medianas: 481px – 620px (tablets pequeñas) */
+        @media(min-width:481px) and (max-width:620px){
+            body { align-items: flex-start; overflow-y: auto; overflow-x: hidden; }
+            .container { padding: 40px 24px 40px; }
+
+            .cake-scene { width: 255px; margin: 62px auto 60px; }
+            .cake-scene::before { width: 280px; }
+
+            .l1 { width: 234px; } .l1 .layer-body { height: 64px; }
+            .l2 { width: 186px; } .l2 .layer-body { height: 54px; }
+            .l3 { width: 140px; } .l3 .layer-body { height: 46px; }
+
+            .plate { width: 268px; }
+            .plate-top { width: 268px; }
+            .plate-top::before { width: 244px; }
+            .plate-rim { width: 250px; }
+
+            .candles-row { top: -108px; gap: 22px; }
+            .cv1 .candle-body { height: 50px; }
+            .cv2 .candle-body { height: 46px; }
+            .cv3 .candle-body { height: 56px; }
+
+            .message-card { padding: 24px 26px; }
+            .verse { font-size: 1rem; }
+        }
+
+        /* Pantallas muy pequeñas: ≤ 360px */
+        @media(max-width:360px){
+            .titulo { font-size: 1.8rem; }
+
+            .cake-scene { width: 190px; margin: 44px auto 48px; }
+
+            .l1 { width: 178px; } .l1 .layer-body { height: 50px; }
+            .l2 { width: 142px; } .l2 .layer-body { height: 42px; }
+            .l3 { width: 108px; } .l3 .layer-body { height: 36px; }
+
+            .plate { width: 208px; }
+            .plate-top { width: 208px; }
+            .plate-top::before { width: 188px; }
+            .plate-rim { width: 194px; }
+
+            .candles-row { top: -86px; gap: 14px; }
+            .cv1 .candle-body { height: 38px; }
+            .cv2 .candle-body { height: 34px; }
+            .cv3 .candle-body { height: 44px; }
+
+            .countdown-ring { width: 54px; height: 54px; }
+            .countdown-ring svg { width: 54px; height: 54px; }
+            .countdown-num { font-size: 1.15rem; }
+
+            .message-card { padding: 18px 16px; }
+            .verse { font-size: .88rem; }
+            .button { padding: 12px 28px; font-size: .74rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-layer bg-atm"></div>
+    <div class="bg-layer bg-aurora"></div>
+    <div id="starfield" class="bg-layer"></div>
+
+    <div class="container">
+
+        <div class="titulo-wrap">
+            <h1 class="titulo">Feliz Cumpleaños</h1>
+            
+        </div>
+
+        <div class="cake-scene">
+            <div class="candles-row">
+                <div class="candle-wrap cv1" id="cv1">
+                    <div class="flame-wrap" style="--fd:.82s;--fde:0s">
+                        <div class="flame-glow"></div>
+                        <div class="flame-outer"></div>
+                        <div class="flame-mid"></div>
+                        <div class="flame-inner"></div>
+                    </div>
+                    <div class="smoke"></div>
+                    <div class="wick"></div>
+                    <div class="candle-body"></div>
+                    <div class="candle-base"></div>
+                </div>
+                <div class="candle-wrap cv2" id="cv2">
+                    <div class="flame-wrap" style="--fd:.95s;--fde:.18s">
+                        <div class="flame-glow"></div>
+                        <div class="flame-outer"></div>
+                        <div class="flame-mid"></div>
+                        <div class="flame-inner"></div>
+                    </div>
+                    <div class="smoke"></div>
+                    <div class="wick"></div>
+                    <div class="candle-body"></div>
+                    <div class="candle-base"></div>
+                </div>
+                <div class="candle-wrap cv3" id="cv3">
+                    <div class="flame-wrap" style="--fd:.78s;--fde:.32s">
+                        <div class="flame-glow"></div>
+                        <div class="flame-outer"></div>
+                        <div class="flame-mid"></div>
+                        <div class="flame-inner"></div>
+                    </div>
+                    <div class="smoke"></div>
+                    <div class="wick"></div>
+                    <div class="candle-body"></div>
+                    <div class="candle-base"></div>
+                </div>
+            </div>
+
+            <div class="cake">
+                <!-- Capa 3 tope -->
+                <div class="layer l3">
+                    <div class="layer-body">
+                        <div class="frosting"></div>
+                        <div class="drip" style="left:8px;height:15px"></div>
+                        <div class="drip" style="left:32px;height:22px"></div>
+                        <div class="drip" style="left:58px;height:13px"></div>
+                        <div class="drip" style="left:84px;height:19px"></div>
+                        <div class="drip" style="left:110px;height:16px"></div>
+                        <div class="drip" style="left:135px;height:12px"></div>
+                        <div class="dot" style="width:7px;height:7px;background:#ffd070;top:22px;left:18px;--dp:2.1s;--dd:0s"></div>
+                        <div class="dot" style="width:6px;height:6px;background:#ffaad8;top:34px;left:55px;--dp:1.8s;--dd:.4s"></div>
+                        <div class="dot" style="width:7px;height:7px;background:#c0a0ff;top:20px;left:96px;--dp:2.3s;--dd:.8s"></div>
+                        <div class="dot" style="width:5px;height:5px;background:#ffd070;top:36px;left:128px;--dp:2s;--dd:.2s"></div>
+                        <div class="cake-number">20</div>
+                    </div>
+                    <div class="layer-side"></div>
+                </div>
+                <div class="cream-sep" style="width:212px"></div>
+
+                <!-- Capa 2 -->
+                <div class="layer l2">
+                    <div class="layer-body">
+                        <div class="frosting"></div>
+                        <div class="drip" style="left:8px;height:18px"></div>
+                        <div class="drip" style="left:30px;height:13px"></div>
+                        <div class="drip" style="left:54px;height:24px"></div>
+                        <div class="drip" style="left:80px;height:16px"></div>
+                        <div class="drip" style="left:106px;height:20px"></div>
+                        <div class="drip" style="left:132px;height:13px"></div>
+                        <div class="drip" style="left:158px;height:17px"></div>
+                        <div class="drip" style="left:182px;height:22px"></div>
+                        <div class="dot" style="width:8px;height:8px;background:#ffd070;top:24px;left:22px;--dp:1.9s;--dd:.1s"></div>
+                        <div class="dot" style="width:6px;height:6px;background:#ffaad8;top:40px;left:65px;--dp:2.4s;--dd:.6s"></div>
+                        <div class="dot" style="width:8px;height:8px;background:#a0d8ff;top:22px;left:112px;--dp:2s;--dd:.3s"></div>
+                        <div class="dot" style="width:6px;height:6px;background:#c0a0ff;top:42px;left:158px;--dp:1.7s;--dd:.9s"></div>
+                        <div class="dot" style="width:7px;height:7px;background:#ffd070;top:26px;left:190px;--dp:2.2s;--dd:.5s"></div>
+                    </div>
+                    <div class="layer-side"></div>
+                </div>
+                <div class="cream-sep" style="width:268px"></div>
+
+                <!-- Capa 1 base -->
+                <div class="layer l1">
+                    <div class="layer-body">
+                        <div class="frosting"></div>
+                        <div class="drip" style="left:6px;height:20px"></div>
+                        <div class="drip" style="left:30px;height:14px"></div>
+                        <div class="drip" style="left:55px;height:26px"></div>
+                        <div class="drip" style="left:80px;height:17px"></div>
+                        <div class="drip" style="left:106px;height:22px"></div>
+                        <div class="drip" style="left:132px;height:14px"></div>
+                        <div class="drip" style="left:158px;height:20px"></div>
+                        <div class="drip" style="left:184px;height:16px"></div>
+                        <div class="drip" style="left:210px;height:24px"></div>
+                        <div class="drip" style="left:238px;height:13px"></div>
+                        <div class="dot" style="width:9px;height:9px;background:#ffd070;top:26px;left:20px;--dp:2s;--dd:0s"></div>
+                        <div class="dot" style="width:7px;height:7px;background:#ffaad8;top:46px;left:68px;--dp:1.8s;--dd:.5s"></div>
+                        <div class="dot" style="width:9px;height:9px;background:#a0d8ff;top:24px;left:118px;--dp:2.3s;--dd:.2s"></div>
+                        <div class="dot" style="width:7px;height:7px;background:#c0a0ff;top:48px;left:172px;--dp:2.1s;--dd:.7s"></div>
+                        <div class="dot" style="width:8px;height:8px;background:#ffd070;top:26px;left:226px;--dp:1.9s;--dd:.4s"></div>
+                    </div>
+                    <div class="layer-side"></div>
+                </div>
+            </div>
+
+            <div class="plate">
+                <div class="plate-top"></div>
+                <div class="plate-rim"></div>
+            </div>
+        </div>
+
+        <!-- CONTADOR -->
+        <div class="countdown-wrap" id="countdownWrap">
+            <div class="countdown-ring">
+                <svg width="72" height="72" viewBox="0 0 72 72">
+                    <defs>
+                        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#f4a0b8"/>
+                            <stop offset="100%" style="stop-color:#d4a855"/>
+                        </linearGradient>
+                    </defs>
+                    <circle class="ring-bg" cx="36" cy="36" r="30"/>
+                    <circle class="ring-fill" id="ringFill" cx="36" cy="36" r="30"/>
+                </svg>
+                <div class="countdown-num" id="countNum">3</div>
+            </div>
+
+        </div>
+
+        <div class="message-section">
+            <div class="divider">
+                <div class="dline"></div>
+                <div class="diamond"></div>
+                <div class="dline r"></div>
+            </div>
+            <div class="message-card">
+                <div class="message-text">
+                    <p class="verse">
+                        No sé si lo piensas mucho,<br>
+                        pero hoy, aunque sea por un rato,<br>
+                        el mundo gira solo para ti.<br><br>
+                        Espero que la pases bien.<br>
+                        <em style="font-style:normal;color:var(--rose-lt)">Feliz Cumpleaños.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-wrap">
+            <button class="button" id="btn" onclick="soplaVelas()">
+                sopla las velas
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Estrellas
+        const sf = document.getElementById('starfield');
+        for(let i=0;i<140;i++){
+            const s=document.createElement('div'); s.className='star';
+            const sz=Math.random()*2.4+.4, op=(Math.random()*.6+.3).toFixed(2), sc=(Math.random()*.6+1.1).toFixed(2);
+            s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--dur:${(Math.random()*4+2).toFixed(1)}s;--del:-${(Math.random()*6).toFixed(1)}s;--op:${op};--sc:${sc};`;
+            sf.appendChild(s);
+        }
+
+        // Pétalos
+        const PC=['#f4a0b8','#e8547a','#d4a855','#c8a8e8','#ffccdd','#edd590'];
+        function lanzarPetalo(){
+            const p=document.createElement('div'); p.className='petal';
+            const sz=Math.random()*10+7, dur=(Math.random()*6+7).toFixed(1), del=(Math.random()*4).toFixed(2);
+            const px=((Math.random()-.5)*200).toFixed(0), pr=(Math.random()*360).toFixed(0);
+            p.style.cssText=`left:${Math.random()*100}%;top:0;width:${sz}px;height:${sz*1.3}px;background:${PC[Math.floor(Math.random()*PC.length)]};border-radius:60% 40% 60% 40%/50% 50% 50% 50%;--pd:${dur}s;--pde:${del}s;--px:${px}px;--pr:${pr}deg;opacity:0;`;
+            document.body.appendChild(p);
+            setTimeout(()=>p.remove(),(parseFloat(dur)+parseFloat(del))*1000+500);
+        }
+        lanzarPetalo(); setInterval(lanzarPetalo,900);
+
+        // Confeti
+        const CC=['#ff6eb4','#ffd700','#a78bfa','#67e8f9','#86efac','#fb923c','#f9a8d4','#d4a855'];
+        function crearConfeti(){
+            for(let i=0;i<90;i++){
+                const c=document.createElement('div'); c.className='confeti';
+                const sz=Math.random()*9+4, isC=Math.random()>.6;
+                const col=CC[Math.floor(Math.random()*CC.length)];
+                const dur=(Math.random()*2.5+2.8).toFixed(1), del=(Math.random()*1.8).toFixed(2);
+                const cx=((Math.random()-.5)*120).toFixed(0);
+                c.style.cssText=`left:${Math.random()*100}%;top:-14px;width:${isC?sz:sz*2}px;height:${sz}px;background:${col};border-radius:${isC?'50%':'2px'};animation:confeti-caida ${dur}s linear ${del}s forwards;--cx:${cx}px;opacity:.92;`;
+                document.body.appendChild(c);
+                setTimeout(()=>c.remove(),(parseFloat(dur)+parseFloat(del))*1000+200);
+            }
+        }
+
+        // Sparkles
+        const SP=['✦','✧','⋆','·','★','✿','❀','◇'];
+        function crearSparkles(x,y,n=6){
+            for(let i=0;i<n;i++){
+                const sp=document.createElement('div'); sp.className='sparkle';
+                sp.textContent=SP[Math.floor(Math.random()*SP.length)];
+                const angle=(Math.PI*2/n)*i+Math.random()*.5, dist=Math.random()*80+40;
+                sp.style.cssText=`left:${x}px;top:${y}px;color:${CC[Math.floor(Math.random()*CC.length)]};--sx:${Math.cos(angle)*dist}px;--sy:${Math.sin(angle)*dist-60}px;--sr:${(Math.random()-.5)*360}deg;animation-delay:${Math.random()*.1}s;`;
+                document.body.appendChild(sp);
+                setTimeout(()=>sp.remove(),2600);
+            }
+        }
+
+        // Soplar velas
+        let apagado=false;
+        function soplaVelas(){
+            if(apagado) return; apagado=true;
+            cancelarContador();
+            const cw=document.getElementById('countdownWrap');
+            if(cw){ cw.style.transition='opacity .4s'; cw.style.opacity='0'; setTimeout(()=>cw.style.display='none',400); }
+            const velas=document.querySelectorAll('.candle-wrap');
+            const btn=document.getElementById('btn');
+            btn.classList.add('done'); btn.textContent='🌸';
+            // Revelar los dos "Feliz Cumpleaños" después de que apaguen las velas
+            setTimeout(()=>{
+                const tw = document.querySelector('.titulo-wrap');
+                const ms = document.querySelector('.message-section');
+                if(tw){ tw.style.opacity='1'; tw.style.transform='translateY(0)'; }
+                if(ms){ ms.style.opacity='1'; ms.style.transform='translateY(0)'; }
+            }, 900);
+            velas.forEach((v,i)=>{
+                setTimeout(()=>{
+                    v.classList.add('blown');
+                    setTimeout(()=>crearConfeti(),i*200);
+                    const r=v.getBoundingClientRect();
+                    crearSparkles(r.left+r.width/2,r.top+10,8);
+                },i*280);
+            });
+        }
+
+        // ── Contador regresivo ──
+        const TOTAL = 3;
+        let segundos = TOTAL;
+        const numEl = document.getElementById('countNum');
+        const ringEl = document.getElementById('ringFill');
+        const circumference = 188;
+
+        function actualizarAnillo(seg) {
+            const progress = seg / TOTAL;
+            ringEl.style.strokeDashoffset = circumference * (1 - progress);
+            // Cambia color conforme urge
+            if (seg <= 3) {
+                ringEl.style.stroke = '#f4a0b8';
+            } else if (seg <= 6) {
+                ringEl.style.stroke = '#d4a855';
+            } else {
+                ringEl.style.stroke = 'var(--rose-lt, #f4a0b8)';
+            }
+        }
+
+        actualizarAnillo(TOTAL);
+
+        const timer = setInterval(() => {
+            segundos--;
+            numEl.textContent = segundos;
+            actualizarAnillo(segundos);
+            if (segundos <= 0) {
+                clearInterval(timer);
+                soplaVelas();
+            }
+        }, 1000);
+
+        function cancelarContador() { clearInterval(timer); }
+        document.querySelector('.cake').addEventListener('click',soplaVelas);
+        document.addEventListener('click',(e)=>{ if(e.target.id!=='btn') crearSparkles(e.clientX,e.clientY,5); });
+    </script>
+</body>
+</html>
