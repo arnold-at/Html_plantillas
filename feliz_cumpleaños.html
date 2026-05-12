@@ -262,15 +262,15 @@
         }
 
         /* Colores velas */
-        .cv1 .flame-outer{background:linear-gradient(to top,#ff3800,#ff8800,#ffd000,rgba(255,200,0,0))}
-        .cv1 .flame-mid  {background:linear-gradient(to top,#ff7000,#ffcc00,rgba(255,220,0,0))}
-        .cv1 .flame-glow {background:radial-gradient(circle,rgba(255,140,0,.55),transparent 70%)}
-        .cv2 .flame-outer{background:linear-gradient(to top,#ff2060,#ff80b0,#ffccdd,rgba(255,200,220,0))}
-        .cv2 .flame-mid  {background:linear-gradient(to top,#ff5090,#ffaac8,rgba(255,200,220,0))}
-        .cv2 .flame-glow {background:radial-gradient(circle,rgba(255,100,160,.5),transparent 70%)}
-        .cv3 .flame-outer{background:linear-gradient(to top,#8000ff,#c060ff,#e8b0ff,rgba(220,180,255,0))}
-        .cv3 .flame-mid  {background:linear-gradient(to top,#a040ff,#dda0ff,rgba(220,180,255,0))}
-        .cv3 .flame-glow {background:radial-gradient(circle,rgba(160,60,255,.5),transparent 70%)}
+        .cv1 .flame-outer{background:linear-gradient(to top,#ff6000,#ffcc00,#ffee44,rgba(255,240,0,0))}
+        .cv1 .flame-mid  {background:linear-gradient(to top,#ffaa00,#ffee00,rgba(255,240,0,0))}
+        .cv1 .flame-glow {background:radial-gradient(circle,rgba(255,220,0,.7),transparent 70%)}
+        .cv2 .flame-outer{background:linear-gradient(to top,#ff6000,#ffcc00,#ffee44,rgba(255,240,0,0))}
+        .cv2 .flame-mid  {background:linear-gradient(to top,#ffaa00,#ffee00,rgba(255,240,0,0))}
+        .cv2 .flame-glow {background:radial-gradient(circle,rgba(255,210,0,.65),transparent 70%)}
+        .cv3 .flame-outer{background:linear-gradient(to top,#ff6000,#ffcc00,#ffee44,rgba(255,240,0,0))}
+        .cv3 .flame-mid  {background:linear-gradient(to top,#ffaa00,#ffee00,rgba(255,240,0,0))}
+        .cv3 .flame-glow {background:radial-gradient(circle,rgba(255,200,0,.65),transparent 70%)}
 
         .candle-body { position: relative; width: 13px; border-radius: 3px; overflow: hidden; }
         .candle-body::after {
@@ -662,7 +662,7 @@
                     <circle class="ring-bg" cx="36" cy="36" r="30"/>
                     <circle class="ring-fill" id="ringFill" cx="36" cy="36" r="30"/>
                 </svg>
-                <div class="countdown-num" id="countNum">3</div>
+                <div class="countdown-num" id="countNum">6</div>
             </div>
 
         </div>
@@ -772,7 +772,7 @@
         }
 
         // ── Contador regresivo ──
-        const TOTAL = 3;
+        const TOTAL = 6;
         let segundos = TOTAL;
         const numEl = document.getElementById('countNum');
         const ringEl = document.getElementById('ringFill');
